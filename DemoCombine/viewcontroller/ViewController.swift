@@ -13,9 +13,8 @@ class ViewController: UIViewController {
     @IBOutlet private weak var tableView: UITableView?
     
     private var postList: [PostModel] = []
-    
     private let postWorker = PostWorker.shared
-    
+    private let userWorker = UserWorker.shared
     private var fetchPostListCancellationToken: AnyCancellable?
 
     override func viewDidLoad() {
@@ -25,25 +24,48 @@ class ViewController: UIViewController {
     }
     
     private func registerTableView() {
+        tableView?.delegate = self
+        tableView?.dataSource = self
         tableView?.register(
-            PostItemTableViewCell.self,
+            PostItemTableViewCell.nib(),
             forCellReuseIdentifier: PostItemTableViewCell.identifier
         )
     }
-    
   
     private func fetcPostList() {
+        // Use cancellation token for disable fetch request when close this view controller
         fetchPostListCancellationToken = postWorker.getAllPost()
+            // Get Post list
+            .flatMap { postList in
+                postList.publisher.setFailureType(to: Error.self)
+            }
+            // Get Post item
+            .flatMap { postItem in
+                // Fetch Post's User use user id
+                self.userWorker.getUser(by: postItem.userId ?? 0)
+                    .mapError({ (error) -> Error in
+                        print("User error: \(error)")
+                        return error
+                    })
+                    // Return with new Post for edit current Post
+                    .map { userResult -> PostModel in
+                        var newPostItem = postItem
+                        newPostItem.user = userResult
+                        return newPostItem
+                    }
+            }
+            // Transform to back to array to render on table view
+            .collect()
             .mapError({ (error) -> Error in
-                print(error)
+                print("Post error: \(error)")
                 return error
             })
+            // Subscribe final result
             .sink(
                 receiveCompletion: {_ in},
-                receiveValue: { [weak self] in
-//                    print("Post list : \($0)")
-                    self?.postList = $0
-                    DispatchQueue.main.async {
+                receiveValue: { result in
+                    DispatchQueue.main.async { [weak self] in
+                        self?.postList = result
                         self?.tableView?.reloadData()
                     }
             })
@@ -54,6 +76,14 @@ class ViewController: UIViewController {
         fetchPostListCancellationToken?.cancel()
     }
 
+}
+
+extension ViewController: UITableViewDelegate {
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 200
+    }
+    
 }
 
 extension ViewController: UITableViewDataSource {
@@ -68,8 +98,6 @@ extension ViewController: UITableViewDataSource {
             for: indexPath
         ) as? PostItemTableViewCell {
             postCell.setData(post: postList[indexPath.row])
-            
-            print("Post item --> \(postList[indexPath.row]) \n")
             return postCell
         }
         return UITableViewCell()

@@ -10,7 +10,7 @@ import Foundation
 struct PostModel: Decodable, Hashable {
     let id: Int?
     let userId: Int?
-    let user: UserModel?
+    var user: UserModel?
     let title: String?
     let body: String?
 }

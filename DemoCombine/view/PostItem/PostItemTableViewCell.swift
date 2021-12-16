@@ -9,11 +9,15 @@ import UIKit
 
 class PostItemTableViewCell: UITableViewCell {
     
+    static let identifier = "PostItemTableViewCell"
+    
+    static func nib() -> UINib {
+        return UINib(nibName: "PostItemTableViewCell", bundle: nil)
+    }
+    
     @IBOutlet private weak var usernameLabel: UILabel?
     @IBOutlet private weak var titleLabel: UILabel?
     @IBOutlet private weak var bodyLabel: UILabel?
-    
-    static let identifier = String(describing: self)
     
     override func awakeFromNib() {
         super.awakeFromNib()

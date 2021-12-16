@@ -22,6 +22,7 @@
 		AB563857276B0D3400FFFEE7 /* UserModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB563856276B0D3400FFFEE7 /* UserModel.swift */; };
 		AB56385A276B111F00FFFEE7 /* PostItemTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB563858276B111F00FFFEE7 /* PostItemTableViewCell.swift */; };
 		AB56385B276B111F00FFFEE7 /* PostItemTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = AB563859276B111F00FFFEE7 /* PostItemTableViewCell.xib */; };
+		AB56385F276B202300FFFEE7 /* UserWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB56385E276B202300FFFEE7 /* UserWorker.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -61,6 +62,7 @@
 		AB563856276B0D3400FFFEE7 /* UserModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserModel.swift; sourceTree = "<group>"; };
 		AB563858276B111F00FFFEE7 /* PostItemTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostItemTableViewCell.swift; sourceTree = "<group>"; };
 		AB563859276B111F00FFFEE7 /* PostItemTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PostItemTableViewCell.xib; sourceTree = "<group>"; };
+		AB56385E276B202300FFFEE7 /* UserWorker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserWorker.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -145,6 +147,7 @@
 			children = (
 				AB56384F276B0C2E00FFFEE7 /* WorkerManager.swift */,
 				AB563851276B0CDC00FFFEE7 /* PostWorker.swift */,
+				AB56385E276B202300FFFEE7 /* UserWorker.swift */,
 			);
 			path = worker;
 			sourceTree = "<group>";
@@ -333,6 +336,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AB56385F276B202300FFFEE7 /* UserWorker.swift in Sources */,
 				AB563820276B0AAD00FFFEE7 /* ViewController.swift in Sources */,
 				AB563857276B0D3400FFFEE7 /* UserModel.swift in Sources */,
 				AB56381C276B0AAD00FFFEE7 /* AppDelegate.swift in Sources */,
