@@ -1,0 +1,6 @@
+framework module Pods_DemoCombine {
+  umbrella header "Pods-DemoCombine-umbrella.h"
+
+  export *
+  module * { export * }
+}

@@ -44,20 +44,21 @@ class ViewController: UIViewController {
                 // Fetch Post's User use user id
                 self.userWorker.getUser(by: postItem.userId ?? 0)
                     .mapError({ (error) -> Error in
-                        print("User error: \(error)")
+                        log.error("User error: \(error)")
                         return error
                     })
                     // Return with new Post for edit current Post
                     .map { userResult -> PostModel in
                         var newPostItem = postItem
                         newPostItem.user = userResult
+                        log.info("Post with user: \(newPostItem)")
                         return newPostItem
                     }
             }
             // Transform to back to array to render on table view
             .collect()
             .mapError({ (error) -> Error in
-                print("Post error: \(error)")
+                log.error("Post error: \(error)")
                 return error
             })
             // Subscribe final result
@@ -65,6 +66,7 @@ class ViewController: UIViewController {
                 receiveCompletion: {_ in},
                 receiveValue: { result in
                     DispatchQueue.main.async { [weak self] in
+                        log.info("Post List with user count: \(result.count)")
                         self?.postList = result
                         self?.tableView?.reloadData()
                     }
